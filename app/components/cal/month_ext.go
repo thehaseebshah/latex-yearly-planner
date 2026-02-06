@@ -94,7 +94,7 @@ func (m *Month) MamoolaatTable() string {
 
 		// Start the table
 		out := `\begingroup\scriptsize
-\renewcommand{\arraystretch}{2.2}
+\renewcommand{\arraystretch}{1.3}
 \begin{tabularx}{\linewidth}{@{}|l` + dayCols + `}
 \hline
 `
@@ -159,7 +159,7 @@ func (m *Month) MamoolaatTable() string {
 	result := `\noindent` + genTable(1, 16)
 	result += `
 
-\vspace{1cm}
+\vspace{0.5cm}
 
 \noindent` + genTable(17, days)
 
@@ -185,7 +185,7 @@ func (m *Month) MamoolaatTableUrdu() string {
 
 		// Start the table
 		out := `\begingroup\scriptsize
-\renewcommand{\arraystretch}{2.2}
+\renewcommand{\arraystretch}{1.3}
 \begin{tabularx}{\linewidth}{@{}|l` + dayCols + `}
 \hline
 `
@@ -250,7 +250,7 @@ func (m *Month) MamoolaatTableUrdu() string {
 	result := `\noindent` + genTable(1, 16)
 	result += `
 
-\vspace{1cm}
+\vspace{0.5cm}
 
 \noindent` + genTable(17, days)
 
