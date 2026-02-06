@@ -1,5 +1,7 @@
+\vspace*{\fill}
 \begin{center}
-{\Huge Mamoolaat 2026}
+{\fontsize{60}{72}\selectfont Mamoolaat 2026}
 \end{center}
+\vspace*{\fill}
 
 \pagebreak
