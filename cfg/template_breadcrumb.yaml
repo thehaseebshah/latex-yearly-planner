@@ -23,6 +23,7 @@ pages:
       - funcname: monthly
         tpls:
           - breadcrumb_03_monthly.tpl
+          - breadcrumb_12_mamoolaat.tpl
 
   - name: weekly
     renderblocks:
