@@ -94,7 +94,7 @@ func (m *Month) MamoolaatTable() string {
 
 		// Start the table
 		out := `\begingroup\scriptsize
-\renewcommand{\arraystretch}{1.3}
+\renewcommand{\arraystretch}{1.7}
 \begin{tabularx}{\linewidth}{@{}|l` + dayCols + `}
 \hline
 `
@@ -185,7 +185,7 @@ func (m *Month) MamoolaatTableUrdu() string {
 
 		// Start the table
 		out := `\begingroup\scriptsize
-\renewcommand{\arraystretch}{1.3}
+\renewcommand{\arraystretch}{1.7}
 \begin{tabularx}{\linewidth}{@{}|l` + dayCols + `}
 \hline
 `
