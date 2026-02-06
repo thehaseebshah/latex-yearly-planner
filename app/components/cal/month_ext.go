@@ -72,10 +72,9 @@ func (m *Month) MamoolaatTable() string {
 		dayCols += "|"
 
 		// Start the table
-		out := `
-\begingroup\scriptsize
+		out := `\begingroup\scriptsize
 \renewcommand{\arraystretch}{2.2}
-\noindent\begin{tabularx}{\linewidth}{|l` + dayCols + `}
+\begin{tabularx}{\linewidth}{|l` + dayCols + `}
 \hline
 `
 		// Header row
@@ -101,16 +100,18 @@ func (m *Month) MamoolaatTable() string {
 		}
 
 		out += `\end{tabularx}
-\endgroup
-`
+\endgroup`
 		return out
 	}
 
 	// Split into two tables: 1-16 and 17-end
-	// We use \par\vspace{1cm}\noindent to ensure separation
-	result := genTable(1, 16)
-	result += `\par\vspace{1cm}\noindent` 
-	result += genTable(17, days)
+	// Apply \noindent before each table for consistent alignment
+	result := `\noindent` + genTable(1, 16)
+	result += `
+
+\vspace{1cm}
+
+\noindent` + genTable(17, days)
 
 	return result
 }
