@@ -53,11 +53,123 @@ func (m *Month) MamoolaatRows() []string {
 	}
 }
 
+// MamoolaatRowsUrdu returns the mamoolaat items with their display names in Urdu
+func (m *Month) MamoolaatRowsUrdu() []string {
+	return []string{
+		"فجر باجماعت",
+		"ظہر باجماعت",
+		"عصر باجماعت",
+		"مغرب باجماعت",
+		"عشاء باجماعت",
+		"صبح کے اذکار (300)",
+		"شام کے اذکار (300)",
+		"سورۂ یاسین",
+		"سورۂ واقعہ",
+		"سورۂ ملک",
+		"پاؤ سپارہ",
+		"نظر کی حفاظت",
+		"کانوں کی حفاظت",
+		"زبان کی حفاظت",
+	}
+}
+
+
 
 // MamoolaatTable generates the LaTeX code for the mamoolaat table
 func (m *Month) MamoolaatTable() string {
 	days := m.DaysInMonth()
 	rows := m.MamoolaatRows()
+
+	// Helper function to generate a table for a range of days
+	// It basically forces 16 columns layout to ensure even widths
+	genTable := func(startDay, endDay int) string {
+		const forcedCols = 16
+		
+		// Build column specification
+		dayCols := ""
+		for i := 0; i < forcedCols; i++ {
+			dayCols += `|>{\centering\arraybackslash}X`
+		}
+		dayCols += "|"
+
+		// Start the table
+		out := `\begingroup\scriptsize
+\renewcommand{\arraystretch}{2.2}
+\begin{tabularx}{\linewidth}{@{}|l` + dayCols + `}
+\hline
+`
+		// Header row with date numbers (no circles)
+		out += " " // First empty cell for labels
+		for i := 0; i < forcedCols; i++ {
+			dayNum := startDay + i
+			cellContent := ""
+			if dayNum <= endDay {
+				cellContent = strconv.Itoa(dayNum)
+			}
+			out += " & " + cellContent
+		}
+		out += ` \\ \hline
+`
+		// Weekday row (M T W T F S S) with circles
+		out += " " // First empty cell
+		weekdayLetters := []string{"M", "T", "W", "T", "F", "S", "S"}
+		for i := 0; i < forcedCols; i++ {
+			dayNum := startDay + i
+			cellContent := ""
+			if dayNum <= endDay {
+				// Calculate day of week (0 = Sunday, 1 = Monday, etc.)
+				date := time.Date(m.Year.Number, m.Month, dayNum, 0, 0, 0, 0, time.UTC)
+				weekday := int(date.Weekday())
+				// Convert Sunday (0) to index 6, Monday (1) to 0, etc.
+				weekdayIndex := (weekday + 6) % 7
+				letter := weekdayLetters[weekdayIndex]
+				
+				// Check if it's Monday
+				isMonday := date.Weekday() == time.Monday
+				
+				if isMonday {
+					// Filled circle for Monday
+					cellContent = `\tikz[baseline=(char.base)]{\node[shape=circle,draw,fill=black,text=white,inner sep=1pt] (char) {` + letter + `};}`
+				} else {
+					// Outline circle for other days
+					cellContent = `\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {` + letter + `};}`
+				}
+			}
+			out += " & " + cellContent
+		}
+		out += ` \\ \hline
+`
+		// Data rows
+		for _, row := range rows {
+			out += row
+			for i := 0; i < forcedCols; i++ {
+				out += " & "
+			}
+			out += ` \\ \hline
+`
+		}
+
+		out += `\end{tabularx}
+\endgroup`
+		return out
+	}
+
+	// Split into two tables: 1-16 and 17-end
+	// Apply \noindent before each table for consistent alignment
+	result := `\noindent` + genTable(1, 16)
+	result += `
+
+\vspace{1cm}
+
+\noindent` + genTable(17, days)
+
+	return result
+}
+
+// MamoolaatTableUrdu generates the LaTeX code for the mamoolaat table with Urdu labels
+func (m *Month) MamoolaatTableUrdu() string {
+	days := m.DaysInMonth()
+	rows := m.MamoolaatRowsUrdu() // Use Urdu labels
 
 	// Helper function to generate a table for a range of days
 	// It basically forces 16 columns layout to ensure even widths
