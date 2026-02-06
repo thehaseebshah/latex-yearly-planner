@@ -26,9 +26,9 @@ WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", 
 WEEKDAYS_SHORT = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 WEEK = ["Week"]
 NOTES = ["Notes"]
-NOTE = ["Note"]
-NOTES_INDEX = ["Notes Index"]
-ALL_NOTES = ["All notes"]
+NOTE = ["Tasks"]
+NOTES_INDEX = ["Tasks Index"]
+ALL_NOTES = ["All Tasks"]
 SCHEDULE = ["Schedule"]
 PRIORITIES = ["Top priorities"]
 MORE = ["More"]
@@ -67,6 +67,7 @@ def handle_quarterly() -> None:
 
     replace = add_identifier(MONTHS, lambda x: "{" + x + "}}")
     replace |= add_identifier(NOTES, lambda x: "{" + x + "}")
+    replace |= add_identifier(NOTE, lambda x: "{" + x + "}")
     for english, spanish in replace.items():
         text = text.replace(english, spanish)
 
@@ -97,6 +98,7 @@ def handle_weekly() -> None:
     replace |= add_identifier(WEEK, lambda x: "}{" + x)
     replace |= add_identifier(WEEKDAYS, lambda x: ", " + x + "}")
     replace |= add_identifier(NOTES, lambda x: "{" + x)
+    replace |= add_identifier(NOTE, lambda x: "{" + x + "}")
     for english, spanish in replace.items():
         text = text.replace(english, spanish)
 

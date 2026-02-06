@@ -12,7 +12,7 @@ func Quarterly(cfg config.Config, tpls []string) (page.Modules, error) {
 	year := cal.NewYear(cfg.WeekStart, cfg.Year)
 
 	hRight := header.Items{
-		header.NewTextItem("Notes").RefText("Notes Index"),
+		header.NewTextItem("Notes Index").RefText("Tasks Index"),
 	}
 
 	for _, quarter := range year.Quarters {
@@ -30,6 +30,23 @@ func Quarterly(cfg config.Config, tpls []string) (page.Modules, error) {
 				"Extra2":       extra2(cfg.ClearTopRightCorner, false, false, nil, 0),
 			},
 		})
+
+		if len(tpls) > 1 {
+			modules = append(modules, page.Module{
+				Cfg: cfg,
+				Tpl: tpls[1],
+				Body: map[string]interface{}{
+					"Year":         year,
+					"Quarter":      quarter,
+					"Breadcrumb":   quarter.BreadcrumbWithLeaf("Tasks"),
+					"HeadingMOS":   quarter.HeadingMOS(),
+					"SideQuarters": year.SideQuarters(quarter.Number),
+					"SideMonths":   year.SideMonths(0),
+					"Extra":        hRight.WithTopRightCorner(cfg.ClearTopRightCorner),
+					"Extra2":       extra2(cfg.ClearTopRightCorner, false, false, nil, 0),
+				},
+			})
+		}
 	}
 
 	return modules, nil

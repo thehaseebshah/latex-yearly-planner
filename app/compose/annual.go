@@ -21,7 +21,7 @@ func Annual(cfg config.Config, tpls []string) (page.Modules, error) {
 			"HeadingMOS":   year.HeadingMOS(),
 			"SideQuarters": year.SideQuarters(0),
 			"SideMonths":   year.SideMonths(0),
-			"Extra": header.Items{header.NewTextItem("Notes").RefText("Notes Index")}.
+			"Extra": header.Items{header.NewTextItem("Tasks Index").RefText("Tasks Index")}.
 				WithTopRightCorner(cfg.ClearTopRightCorner),
 			"Extra2": extra2(cfg.ClearTopRightCorner, true, false, nil, 0),
 		},
@@ -43,9 +43,9 @@ func extra2(ctrc, sel1, sel2 bool, week *cal.Week, idxPage int) header.Items {
 			suffix = " " + strconv.Itoa(idxPage)
 		}
 
-		items = append(items, header.NewCellItem("Notes").Refer("Notes Index"+suffix).Selected(sel2))
+		items = append(items, header.NewCellItem("Notes").Refer("Tasks Index"+suffix).Selected(sel2))
 	} else {
-		items = append(items, header.NewCellItem("Notes").Refer("Notes Index").Selected(sel2))
+		items = append(items, header.NewCellItem("Notes").Refer("Tasks Index").Selected(sel2))
 	}
 
 	return items.WithTopRightCorner(ctrc)

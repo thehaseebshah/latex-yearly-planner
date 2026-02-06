@@ -41,11 +41,11 @@ func (i Index) PrevNext(currIdx int) header.Items {
 			postfix = ""
 		}
 
-		list = append(list, header.NewTextItem("Notes Index"+postfix))
+		list = append(list, header.NewTextItem("Tasks Index"+postfix))
 	}
 
 	if currIdx+1 < len(i.Pages) {
-		list = append(list, header.NewTextItem("Notes Index "+strconv.Itoa(currIdx+2)))
+		list = append(list, header.NewTextItem("Tasks Index "+strconv.Itoa(currIdx+2)))
 	}
 
 	return list

@@ -28,7 +28,7 @@ func (p Notes) Breadcrumb(year, idx int) string {
 
 	return header.Items{
 		header.NewIntItem(year),
-		header.NewTextItem("Notes Index" + postfix).Ref(true),
+		header.NewTextItem("Tasks Index" + postfix).Ref(true),
 	}.Table(true)
 }
 
@@ -39,7 +39,7 @@ func (p Notes) HeadingMOS(page, pages int) string {
 		out += tex.Hyperlink(p.ref(page-1), tex.ResizeBoxW(`\myLenHeaderResizeBox`, `$\langle$`)) + " "
 	}
 
-	out += tex.Hypertarget(p.ref(page), "") + tex.ResizeBoxW(`\myLenHeaderResizeBox`, `Index Notes`)
+	out += tex.Hypertarget(p.ref(page), "") + tex.ResizeBoxW(`\myLenHeaderResizeBox`, `Index Tasks`)
 
 	if page < pages {
 		out += " " + tex.Hyperlink(p.ref(page+1), tex.ResizeBoxW(`\myLenHeaderResizeBox`, `$\rangle$`))
@@ -55,7 +55,7 @@ func (p Notes) ref(page int) string {
 		suffix = " " + strconv.Itoa(page)
 	}
 
-	return "Notes Index" + suffix
+	return "Tasks Index" + suffix
 }
 
 func (n Note) HyperLink() string {
@@ -71,7 +71,7 @@ func (n Note) Breadcrumb() string {
 
 	return header.Items{
 		header.NewIntItem(n.Year),
-		header.NewTextItem("Notes Index" + page),
+		header.NewTextItem("Tasks Index" + page),
 		header.NewTextItem(n.ref()).Ref(true),
 	}.Table(true)
 }
@@ -80,11 +80,11 @@ func (n Note) PrevNext(notes int) header.Items {
 	items := header.Items{}
 
 	if n.Number > 1 {
-		items = append(items, header.NewTextItem("Note "+strconv.Itoa(n.Number-1)))
+		items = append(items, header.NewTextItem("Tasks "+strconv.Itoa(n.Number-1)))
 	}
 
 	if n.Number < notes {
-		items = append(items, header.NewTextItem("Note "+strconv.Itoa(n.Number+1)))
+		items = append(items, header.NewTextItem("Tasks "+strconv.Itoa(n.Number+1)))
 	}
 
 	return items
@@ -93,9 +93,9 @@ func (n Note) PrevNext(notes int) header.Items {
 func (n Note) HeadingMOS(page int) string {
 	num := strconv.Itoa(n.Number)
 
-	return tex.Hypertarget(n.ref(), "") + tex.ResizeBoxW(`\myLenHeaderResizeBox`, `Note `+num+`\myDummyQ`)
+	return tex.Hypertarget(n.ref(), "") + tex.ResizeBoxW(`\myLenHeaderResizeBox`, `Tasks `+num+`\myDummyQ`)
 }
 
 func (n Note) ref() string {
-	return "Note " + strconv.Itoa(n.Number)
+	return "Tasks " + strconv.Itoa(n.Number)
 }

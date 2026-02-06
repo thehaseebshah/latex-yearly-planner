@@ -20,7 +20,7 @@ fi
 nakedname=$(echo "${CFG}" | rev | cut -d, -f1 | cut -d'/' -f 1 | cut -d'.' -f 2-99 | rev)
 
 if [ -n "${TRANSLATION}" ]; then
-  python3 translate.py ${TRANSLATION}
+  python translate.py ${TRANSLATION}
 fi
 
 _passes=(1)

@@ -16,6 +16,7 @@ pages:
       - funcname: quarterly
         tpls:
           - breadcrumb_02_quarterly.tpl
+          - breadcrumb_10_quarterly_tasks.tpl
 
   - name: monthly
     renderblocks:
@@ -28,6 +29,7 @@ pages:
       - funcname: weekly
         tpls:
           - breadcrumb_04_weekly.tpl
+          - breadcrumb_11_weekly_tasks.tpl
 
   - name: daily
     renderblocks:

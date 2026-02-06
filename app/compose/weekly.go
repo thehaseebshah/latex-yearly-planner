@@ -25,6 +25,23 @@ func Weekly(cfg config.Config, tpls []string) (page.Modules, error) {
 				"Extra2":       extra2(cfg.ClearTopRightCorner, false, false, nil, 0),
 			},
 		})
+
+		if len(tpls) > 1 {
+			modules = append(modules, page.Module{
+				Cfg: cfg,
+				Tpl: tpls[1],
+				Body: map[string]interface{}{
+					"Year":         year,
+					"Week":         week,
+					"Breadcrumb":   week.BreadcrumbWithLeaf("Tasks"),
+					"HeadingMOS":   week.HeadingMOS(),
+					"SideQuarters": year.SideQuarters(week.Quarters.Numbers()...),
+					"SideMonths":   year.SideMonths(week.Months.Months()...),
+					"Extra":        week.PrevNext().WithTopRightCorner(cfg.ClearTopRightCorner),
+					"Extra2":       extra2(cfg.ClearTopRightCorner, false, false, nil, 0),
+				},
+			})
+		}
 	}
 
 	return modules, nil
