@@ -38,8 +38,8 @@ func (m *Month) BreadcrumbWithLeaf(leaf string) string {
 // MamoolaatRows returns the mamoolaat items with their display names
 func (m *Month) MamoolaatRows() []string {
 	return []string{
-		"Wake Time",
-		"Sleep Time",
+		"Timely Wake",
+		"Timely Sleep",
 		"Tahajjud Protocol",
 		"Fajr Protocol",
 		"Ishraq Protocol",
