@@ -53,18 +53,20 @@ func (m *Month) MamoolaatRows() []string {
 	}
 }
 
+
 // MamoolaatTable generates the LaTeX code for the mamoolaat table
 func (m *Month) MamoolaatTable() string {
 	days := m.DaysInMonth()
 	rows := m.MamoolaatRows()
 
 	// Helper function to generate a table for a range of days
+	// It basically forces 16 columns layout to ensure even widths
 	genTable := func(startDay, endDay int) string {
-		numDays := endDay - startDay + 1
+		const forcedCols = 16
 		
 		// Build column specification
 		dayCols := ""
-		for i := 0; i < numDays; i++ {
+		for i := 0; i < forcedCols; i++ {
 			dayCols += `|>{\centering\arraybackslash}X`
 		}
 		dayCols += "|"
@@ -73,20 +75,25 @@ func (m *Month) MamoolaatTable() string {
 		out := `
 \begingroup\scriptsize
 \renewcommand{\arraystretch}{2.2}
-\begin{tabularx}{\linewidth}{|l` + dayCols + `}
+\noindent\begin{tabularx}{\linewidth}{|l` + dayCols + `}
 \hline
 `
 		// Header row
-		out += " "
-		for i := startDay; i <= endDay; i++ {
-			out += " & " + strconv.Itoa(i)
+		out += " " // First empty cell for labels
+		for i := 0; i < forcedCols; i++ {
+			dayNum := startDay + i
+			cellContent := ""
+			if dayNum <= endDay {
+				cellContent = strconv.Itoa(dayNum)
+			}
+			out += " & " + cellContent
 		}
 		out += ` \\ \hline
 `
 		// Data rows
 		for _, row := range rows {
 			out += row
-			for i := 0; i < numDays; i++ {
+			for i := 0; i < forcedCols; i++ {
 				out += " & "
 			}
 			out += ` \\ \hline
@@ -99,10 +106,11 @@ func (m *Month) MamoolaatTable() string {
 		return out
 	}
 
-	// Split into two tables: 1-15 and 16-end
-	result := genTable(1, 15)
-	result += `\vspace{1cm}` // Add some vertical space between tables
-	result += genTable(16, days)
+	// Split into two tables: 1-16 and 17-end
+	// We use \par\vspace{1cm}\noindent to ensure separation
+	result := genTable(1, 16)
+	result += `\par\vspace{1cm}\noindent` 
+	result += genTable(17, days)
 
 	return result
 }
