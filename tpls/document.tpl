@@ -1,6 +1,4 @@
 \documentclass[9pt]{extarticle}
-\usepackage{fontspec}
-\setmainfont{Arial}
 
 \usepackage{geometry}
 \usepackage[table]{xcolor}

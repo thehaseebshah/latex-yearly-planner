@@ -53,23 +53,23 @@ func (m *Month) MamoolaatRows() []string {
 	}
 }
 
-// MamoolaatRowsUrdu returns the mamoolaat items with their display names in Urdu
+// MamoolaatRowsUrdu returns the mamoolaat items with their display names in Roman Urdu
 func (m *Month) MamoolaatRowsUrdu() []string {
 	return []string{
-		"فجر باجماعت",
-		"ظہر باجماعت",
-		"عصر باجماعت",
-		"مغرب باجماعت",
-		"عشاء باجماعت",
-		"صبح کے اذکار (300)",
-		"شام کے اذکار (300)",
-		"سورۂ یاسین",
-		"سورۂ واقعہ",
-		"سورۂ ملک",
-		"پاؤ سپارہ",
-		"نظر کی حفاظت",
-		"کانوں کی حفاظت",
-		"زبان کی حفاظت",
+		"Fajr Bajamat",
+		"Zuhr Bajamat",
+		"Asr Bajamat",
+		"Maghrib Bajamat",
+		"Isha Bajamat",
+		"Subah ke Azkar (300)",
+		"Shaam ke Azkar (300)",
+		"Surah Yaseen",
+		"Surah Waqiah",
+		"Surah Mulk",
+		"Pao Sipara",
+		"Nazar ki Hifazat",
+		"Kanon ki Hifazat",
+		"Zaban ki Hifazat",
 	}
 }
 
