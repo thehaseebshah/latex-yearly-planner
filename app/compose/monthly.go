@@ -42,7 +42,7 @@ func Monthly(cfg config.Config, tpls []string) (page.Modules, error) {
 						"Year":         year,
 						"Quarter":      quarter,
 						"Month":        month,
-						"Breadcrumb":   month.Breadcrumb() + ` $\vert$ Mamoolaat`,
+						"Breadcrumb":   month.BreadcrumbWithLeaf("Mamoolaat"),
 						"HeadingMOS":   month.HeadingMOS(),
 						"SideQuarters": year.SideQuarters(quarter.Number),
 						"SideMonths":   year.SideMonths(month.Month),
