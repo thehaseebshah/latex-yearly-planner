@@ -1,0 +1,12 @@
+pages:
+  - name: title
+    renderblocks:
+      - funcname: title
+        tpls:
+          - mamoolaat_only_title.tpl
+
+  - name: mamoolaat
+    renderblocks:
+      - funcname: mamoolaat_only
+        tpls:
+          - mamoolaat_only_month.tpl
