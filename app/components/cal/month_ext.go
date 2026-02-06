@@ -77,29 +77,19 @@ func (m *Month) MamoolaatTable() string {
 \begin{tabularx}{\linewidth}{@{}|l` + dayCols + `}
 \hline
 `
-		// Header row with date numbers (circled)
+		// Header row with date numbers (no circles)
 		out += " " // First empty cell for labels
 		for i := 0; i < forcedCols; i++ {
 			dayNum := startDay + i
 			cellContent := ""
 			if dayNum <= endDay {
-				// Check if it's Monday
-				date := time.Date(m.Year.Number, m.Month, dayNum, 0, 0, 0, 0, time.UTC)
-				isMonday := date.Weekday() == time.Monday
-				
-				if isMonday {
-					// Filled circle for Monday
-					cellContent = `\tikz[baseline=(char.base)]{\node[shape=circle,draw,fill=black,text=white,inner sep=1pt] (char) {` + strconv.Itoa(dayNum) + `};}`
-				} else {
-					// Outline circle for other days
-					cellContent = `\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {` + strconv.Itoa(dayNum) + `};}`
-				}
+				cellContent = strconv.Itoa(dayNum)
 			}
 			out += " & " + cellContent
 		}
 		out += ` \\ \hline
 `
-		// Weekday row (M T W T F S S)
+		// Weekday row (M T W T F S S) with circles
 		out += " " // First empty cell
 		weekdayLetters := []string{"M", "T", "W", "T", "F", "S", "S"}
 		for i := 0; i < forcedCols; i++ {
@@ -111,7 +101,18 @@ func (m *Month) MamoolaatTable() string {
 				weekday := int(date.Weekday())
 				// Convert Sunday (0) to index 6, Monday (1) to 0, etc.
 				weekdayIndex := (weekday + 6) % 7
-				cellContent = weekdayLetters[weekdayIndex]
+				letter := weekdayLetters[weekdayIndex]
+				
+				// Check if it's Monday
+				isMonday := date.Weekday() == time.Monday
+				
+				if isMonday {
+					// Filled circle for Monday
+					cellContent = `\tikz[baseline=(char.base)]{\node[shape=circle,draw,fill=black,text=white,inner sep=1pt] (char) {` + letter + `};}`
+				} else {
+					// Outline circle for other days
+					cellContent = `\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {` + letter + `};}`
+				}
 			}
 			out += " & " + cellContent
 		}
