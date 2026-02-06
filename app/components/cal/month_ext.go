@@ -77,13 +77,31 @@ func (m *Month) MamoolaatTable() string {
 \begin{tabularx}{\linewidth}{|l` + dayCols + `}
 \hline
 `
-		// Header row
+		// Header row with date numbers
 		out += " " // First empty cell for labels
 		for i := 0; i < forcedCols; i++ {
 			dayNum := startDay + i
 			cellContent := ""
 			if dayNum <= endDay {
 				cellContent = strconv.Itoa(dayNum)
+			}
+			out += " & " + cellContent
+		}
+		out += ` \\ \hline
+`
+		// Weekday row (M T W T F S S)
+		out += " " // First empty cell
+		weekdayLetters := []string{"M", "T", "W", "T", "F", "S", "S"}
+		for i := 0; i < forcedCols; i++ {
+			dayNum := startDay + i
+			cellContent := ""
+			if dayNum <= endDay {
+				// Calculate day of week (0 = Sunday, 1 = Monday, etc.)
+				date := time.Date(m.Year.Number, m.Month, dayNum, 0, 0, 0, 0, time.UTC)
+				weekday := int(date.Weekday())
+				// Convert Sunday (0) to index 6, Monday (1) to 0, etc.
+				weekdayIndex := (weekday + 6) % 7
+				cellContent = weekdayLetters[weekdayIndex]
 			}
 			out += " & " + cellContent
 		}
