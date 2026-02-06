@@ -74,16 +74,26 @@ func (m *Month) MamoolaatTable() string {
 		// Start the table
 		out := `\begingroup\scriptsize
 \renewcommand{\arraystretch}{2.2}
-\begin{tabularx}{\linewidth}{|l` + dayCols + `}
+\begin{tabularx}{\linewidth}{@{}|l` + dayCols + `}
 \hline
 `
-		// Header row with date numbers
+		// Header row with date numbers (circled)
 		out += " " // First empty cell for labels
 		for i := 0; i < forcedCols; i++ {
 			dayNum := startDay + i
 			cellContent := ""
 			if dayNum <= endDay {
-				cellContent = strconv.Itoa(dayNum)
+				// Check if it's Monday
+				date := time.Date(m.Year.Number, m.Month, dayNum, 0, 0, 0, 0, time.UTC)
+				isMonday := date.Weekday() == time.Monday
+				
+				if isMonday {
+					// Filled circle for Monday
+					cellContent = `\tikz[baseline=(char.base)]{\node[shape=circle,draw,fill=black,text=white,inner sep=1pt] (char) {` + strconv.Itoa(dayNum) + `};}`
+				} else {
+					// Outline circle for other days
+					cellContent = `\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=1pt] (char) {` + strconv.Itoa(dayNum) + `};}`
+				}
 			}
 			out += " & " + cellContent
 		}
