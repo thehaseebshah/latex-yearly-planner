@@ -58,48 +58,51 @@ func (m *Month) MamoolaatTable() string {
 	days := m.DaysInMonth()
 	rows := m.MamoolaatRows()
 
-	// Build column specification:
-	// First column: explicit left aligned (l)
-	// Day columns: specific centered X columns (>{\centering\arraybackslash}X)
-	// We construct the string for the day columns
-	dayCols := ""
-	for i := 0; i < days; i++ {
-		dayCols += `|>{\centering\arraybackslash}X`
-	}
-	dayCols += "|" // Closing vertical bar
+	// Helper function to generate a table for a range of days
+	genTable := func(startDay, endDay int) string {
+		numDays := endDay - startDay + 1
+		
+		// Build column specification
+		dayCols := ""
+		for i := 0; i < numDays; i++ {
+			dayCols += `|>{\centering\arraybackslash}X`
+		}
+		dayCols += "|"
 
-	// Start the table
-	// \linewidth ensures it uses the full text width
-	// arraystretch 2.5 makes the rows much taller (approx 1cm+)
-	// \scriptsize is larger than tiny but small enough for 31 columns
-	result := `
+		// Start the table
+		out := `
 \begingroup\scriptsize
 \renewcommand{\arraystretch}{2.2}
 \begin{tabularx}{\linewidth}{|l` + dayCols + `}
 \hline
 `
-
-	// Header row with day numbers
-	result += " "
-	for i := 1; i <= days; i++ {
-		result += " & " + strconv.Itoa(i)
-	}
-	result += ` \\ \hline
-`
-
-	// Data rows for each mamoolaat
-	for _, row := range rows {
-		result += row
-		for i := 0; i < days; i++ {
-			result += " & "
+		// Header row
+		out += " "
+		for i := startDay; i <= endDay; i++ {
+			out += " & " + strconv.Itoa(i)
 		}
-		result += ` \\ \hline
+		out += ` \\ \hline
 `
-	}
+		// Data rows
+		for _, row := range rows {
+			out += row
+			for i := 0; i < numDays; i++ {
+				out += " & "
+			}
+			out += ` \\ \hline
+`
+		}
 
-	result += `\end{tabularx}
+		out += `\end{tabularx}
 \endgroup
 `
+		return out
+	}
+
+	// Split into two tables: 1-15 and 16-end
+	result := genTable(1, 15)
+	result += `\vspace{1cm}` // Add some vertical space between tables
+	result += genTable(16, days)
 
 	return result
 }
